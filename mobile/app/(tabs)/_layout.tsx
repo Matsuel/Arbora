@@ -1,7 +1,14 @@
 import React from 'react';
 import { Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
+import Welcome from '../welcome';
 
 export default function TabLayout() {
+
+  const user = undefined;
+
+  if (!user) {
+    return <Welcome />;
+  }
 
   return (
     <NativeTabs>
