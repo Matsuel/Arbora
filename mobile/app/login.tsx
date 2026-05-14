@@ -10,6 +10,7 @@ import Google from "@/components/icon/Google";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import ProviderButton from "@/components/ui/ProviderButton";
+import authController from "@/controllers/auth.controller";
 
 const Login = () => {
 
@@ -17,10 +18,12 @@ const Login = () => {
 		{
 			label: "Google",
 			icon: <Google width={16} height={16} />,
+			onPress: async () => await authController.signInWithGoogle(),
 		},
 		{
 			label: "Apple",
 			icon: <Apple width={16} height={16} />,
+			onPress: async () => {} // TODO: implement Apple Sign-In
 		},
 	];
 
@@ -58,7 +61,7 @@ const Login = () => {
 						<ProviderButton
 							key={provider.label}
 							label={provider.label}
-							// onPress={provider.onPress}
+							onPress={provider.onPress}
 						>
 							{provider.icon}
 						</ProviderButton>
