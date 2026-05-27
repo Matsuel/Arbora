@@ -5,28 +5,12 @@ import {
 	StyleSheet,
 	View,
 } from "react-native";
-import Apple from "@/components/icon/Apple";
-import Google from "@/components/icon/Google";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import ProviderButton from "@/components/ui/ProviderButton";
-import authController from "@/controllers/auth.controller";
+import { authConfig } from "@/constants/auth";
 
 const Login = () => {
-
-	const providers = [
-		{
-			label: "Google",
-			icon: <Google width={16} height={16} />,
-			onPress: async () => await authController.signInWithGoogle(),
-		},
-		{
-			label: "Apple",
-			icon: <Apple width={16} height={16} />,
-			onPress: async () => {} // TODO: implement Apple Sign-In
-		},
-	];
-
 	return (
 		<KeyboardAvoidingView
 			style={styles.container}
@@ -57,7 +41,7 @@ const Login = () => {
 				</Button>
 
 				<View style={styles.providers}>
-					{providers.map((provider) => (
+					{authConfig.map((provider) => (
 						<ProviderButton
 							key={provider.label}
 							label={provider.label}

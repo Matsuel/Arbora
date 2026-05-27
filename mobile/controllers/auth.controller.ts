@@ -1,45 +1,46 @@
-import { supabase } from "@/lib/supabase";
+import { authDatabase } from "@/lib/database/auth/auth.database";
+import type { Session } from "@supabase/supabase-js";
+import { Platform } from "react-native";
 import * as WebBrowser from "expo-web-browser";
-import * as Linking from "expo-linking";
 
 WebBrowser.maybeCompleteAuthSession();
 
-const authController = {
-	getSession: () => supabase.auth.getSession(),
+export const getRedirectUrl = (): string =>
+	Platform.OS === "web" && typeof window !== "undefined"
+		? `${window.location.origin}/auth/callback`
+		: "mobile://auth/callback";
 
-	signInWithEmail: (email: string, password: string) =>
-		supabase.auth.signInWithPassword({ email, password }),
-
-	signInWithGoogle: async () => {
-		const redirectTo = window.location.origin + "/auth/callback"; // Ensure this matches the redirect URI configured in Supabase
-
-		console.log(window.location.origin);
-
-		const { data, error } = await supabase.auth.signInWithOAuth({
-			provider: "google",
-			options: {
-				redirectTo,
-			},
-		});
-
-		console.log("OAuth response", { data, error });
-
-		if (error) {
-			console.log("OAuth error", error);
-			return;
-		}
-
-		if (data?.url) {
-			const result = await WebBrowser.openAuthSessionAsync(
-				data.url,
-				redirectTo
-			);
-
-			console.log(result);
-		}
-	},
-
-	signOut: () => supabase.auth.signOut(),
+export const extractTokensFromUrl = (url: string) => {
+	try {
+		const hashIndex = url.indexOf("#");
+		if (hashIndex === -1) return {};
+		const params = new URLSearchParams(url.substring(hashIndex + 1));
+		return {
+			access_token: params.get("access_token"),
+			refresh_token: params.get("refresh_token"),
+		};
+	} catch {
+		return {};
+	}
 };
 
-export default authController;
+export const authController = {
+	getSession: () => authDatabase.getSession(),
+	setSession: (accessToken: string, refreshToken: string) =>
+		authDatabase.setSession(accessToken, refreshToken),
+	exchangeCodeForSession: (code: string) => authDatabase.exchangeCodeForSession(code),
+	signOut: () => authDatabase.signOut(),
+	signInWithPassword: (email: string, password: string) =>
+		authDatabase.signInWithPassword(email, password),
+	signUp: (email: string, password: string, metadata?: { full_name?: string }) =>
+		authDatabase.signUp(email, password, metadata),
+	resetPasswordForEmail: (email: string, redirectTo: string) =>
+		authDatabase.resetPasswordForEmail(email, redirectTo),
+	signInWithOAuth: (provider: "google", redirectTo: string) =>
+		authDatabase.signInWithOAuth(provider, {
+			redirectTo,
+			...(Platform.OS === "web" ? {} : { skipBrowserRedirect: true }),
+		}),
+	onAuthStateChange: (callback: (session: Session | null) => void) =>
+		authDatabase.onAuthStateChange(callback),
+};
