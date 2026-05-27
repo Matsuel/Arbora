@@ -21,21 +21,10 @@ enum plan {
   FREE
 }
 
-model User {
-  id    String @id @default(uuid())
-  email String @unique
-  firstName String
-  lastName String
-  role role
-  createdAt DateTime @default(now())
-  plan plan
-  portfolio Portfolio[]
-}
-
 model Portfolio {
   id String @id @default(uuid())
   userId String @unique
-  user User @relation(fields: [userId], references: [id])
+  name String
   createdAt DateTime @default(now())
   baseCurrency String
 }

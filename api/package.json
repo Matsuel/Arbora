@@ -6,7 +6,7 @@
   "scripts": {
     "db:migrate": "prisma migrate dev",
     "db:generate": "prisma generate"
-  },  
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -16,6 +16,7 @@
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",
     "@prisma/client": "^7.8.0",
+    "@supabase/supabase-js": "^2.106.2",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/pg": "^8.20.0",
