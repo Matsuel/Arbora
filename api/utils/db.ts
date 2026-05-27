@@ -10,3 +10,12 @@ export const dbHealthCheck = async () => {
         process.exit(1);
     }
 }
+
+export const isDbConnected = async (): Promise<boolean> => {
+    try {
+        await prisma.$queryRaw`SELECT 1`;
+        return true;
+    } catch (_error) {
+        return false;
+    }
+}
