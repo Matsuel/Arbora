@@ -23,10 +23,12 @@ enum plan {
 
 model Portfolio {
   id String @id @default(uuid())
-  userId String @unique
+  userId String
   name String
   createdAt DateTime @default(now())
   baseCurrency String
+
+  @@unique([userId, name])
 }
 
 

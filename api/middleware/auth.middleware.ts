@@ -7,7 +7,15 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
     if (!token) return next(new AppError('Unauthorized', 401))
 
     const { data, error } = await supabase.auth.getUser(token)
-    if (error || !data.user) return next(new AppError('Unauthorized', 401))
+    if (error) {
+        console.error('Authentication error:', error)
+        return next(new AppError('Unauthorized', 401))
+    }
+
+    if (!data?.user) {
+        console.error('No user found for token')
+        return next(new AppError('Unauthorized', 401))
+    }
 
     req.userId = data.user.id
     next()
