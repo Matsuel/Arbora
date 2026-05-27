@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum role {
+  USER
+  ADMIN
+}
+
+enum plan {
+  FREE
+}
+
+model User {
+  id    String @id @default(uuid())
+  email String @unique
+  firstName String
+  lastName String
+  role role
+  createdAt DateTime @default(now())
+  plan plan
+  portfolio Portfolio[]
+}
+
+model Portfolio {
+  id String @id @default(uuid())
+  userId String @unique
+  user User @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  baseCurrency String
+}
+
+
+// Assets
+
+enum assetType {
+  STOCK
+  CRYPTO
+  ETF
+}
+
+
+model Asset {
+  id String @id @default(uuid())
+  ticker String
+  name String
+  type assetType
+  currency String
+  isin String?
+  createdAt DateTime @default(now())
+  prices AssetPrice[]
+}
+
+model AssetPrice {
+  id String @id @default(uuid())
+  assetId String
+  asset Asset @relation(fields: [assetId], references: [id])
+  timestamp DateTime
+  open Float
+  high Float
+  low Float
+  close Float
+  volume Float
+}
+
+// Transactions
