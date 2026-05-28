@@ -13,13 +13,32 @@ const createPortfolioRoutes = (): RouteDescriptor[] => {
         {
             method: "post",
             path: `${prefix}`,
-            middlewares: [
-                authMiddleware
-            ],
-            handler: asyncHandler(async (req, res) => {
-                const result = await controller.createPortfolio(req, res);
-                res.json(result);
-            })
+            middlewares: [authMiddleware],
+            handler: asyncHandler(controller.createPortfolio)
+        },
+        {
+            method: "get",
+            path: `${prefix}`,
+            middlewares: [authMiddleware],
+            handler: asyncHandler(controller.getAllPortfolios)
+        },
+        {
+            method: "get",
+            path: `${prefix}/:id`,
+            middlewares: [authMiddleware],
+            handler: asyncHandler(controller.getPortfolio)
+        },
+        {
+            method: "patch",
+            path: `${prefix}/:id`,
+            middlewares: [authMiddleware],
+            handler: asyncHandler(controller.updatePortfolio)
+        },
+        {
+            method: "delete",
+            path: `${prefix}/:id`,
+            middlewares: [authMiddleware],
+            handler: asyncHandler(controller.deletePortfolio)
         }
     ];
 }

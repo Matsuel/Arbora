@@ -7,15 +7,31 @@ class PortfolioController {
 
     createPortfolio = async (req: Request, res: Response) => {
         const { name, baseCurrency } = req.body
-        
-        try {
-            const portfolio = await this.portfolioService.create(req.userId!, name, baseCurrency)
-            res.status(201).json(portfolio)
-        } catch (error) {
-            res.status(500).json({ message: "Failed to create portfolio", error })
-        }
+        const portfolio = await this.portfolioService.create(req.userId!, name, baseCurrency)
+        res.status(201).json(portfolio)
     }
 
-};
+    getPortfolio = async (req: Request, res: Response) => {
+        const portfolio = await this.portfolioService.getById(req.params.id as string, req.userId!)
+        res.json(portfolio)
+    }
+
+    getAllPortfolios = async (req: Request, res: Response) => {
+        const result = await this.portfolioService.getAll(req.userId!)
+        res.json(result)
+    }
+
+    updatePortfolio = async (req: Request, res: Response) => {
+        const { name, baseCurrency } = req.body
+        const portfolio = await this.portfolioService.update(req.params.id as string, req.userId!, { name, baseCurrency })
+        res.json(portfolio)
+    }
+
+    deletePortfolio = async (req: Request, res: Response) => {
+        await this.portfolioService.delete(req.params.id as string, req.userId!)
+        res.status(204).send()
+    }
+
+}
 
 export default PortfolioController;
