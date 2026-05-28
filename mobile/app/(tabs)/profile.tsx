@@ -1,11 +1,14 @@
 import Button from '@/components/ui/Button';
+import SwitchToggle from '@/components/ui/SwitchToggle';
 import { useAuth } from '@/contexts/auth-context';
-import React from 'react'
+import React, { useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
 
 const Profile = () => {
 
     const { user, isLoading, signOut } = useAuth();
+    const [isDarkMode, setIsDarkMode] = useState(false);
+
 
     if (isLoading || !user) {
         return null; // or a loading spinner
@@ -16,6 +19,7 @@ const Profile = () => {
     const abbreviatedName = userName.split(' ').map((word: string) => word[0]).join('');
 
     const memberSince = new Date(user.created_at).toLocaleDateString();
+
 
     return (
         <View style={styles.container}>
@@ -36,6 +40,11 @@ const Profile = () => {
                     </Text>
                 </View>
             </View>
+            <SwitchToggle 
+                value={isDarkMode}
+                onValueChange={setIsDarkMode}
+                label="Mode sombre"
+            />
             <Button onPress={signOut} variant='secondary'>
                 Se déconnecter
             </Button>
