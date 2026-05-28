@@ -30,13 +30,17 @@ export default function TabLayout() {
   return (
     <NativeTabs>
       <NativeTabs.Trigger name="index">
-        <Label>Home</Label>
-        <Icon sf="house.fill" drawable="custom_android_drawable" />
+        <Label>Synthèse</Label>
+        <Icon sf="rectangle.3.group.fill" drawable="custom_android_drawable" />
       </NativeTabs.Trigger>
-      {/* <NativeTabs.Trigger name="settings">
-        <Icon sf="gear" drawable="custom_settings_drawable" />
-        <Label>Settings</Label>
-      </NativeTabs.Trigger> */}
+      <NativeTabs.Trigger name="market">
+        <Label>Marché</Label>
+        <Icon sf="chart.line.uptrend.xyaxis" drawable="custom_android_drawable" />
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="profile">
+        <Label>Profil</Label>
+        <Icon sf="gear" drawable="custom_android_drawable" />
+      </NativeTabs.Trigger>
     </NativeTabs>
   );
 }

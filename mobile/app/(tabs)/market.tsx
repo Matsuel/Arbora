@@ -1,9 +1,11 @@
+import React from 'react'
 import { View } from 'react-native';
 
-
-export default function HomeScreen() {
+const Market = () => {
     return (
         <View style={{ flex: 1 }}>
         </View>
     );
 }
+
+export default Market
