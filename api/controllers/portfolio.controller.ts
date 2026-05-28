@@ -1,16 +1,15 @@
 import type { Request, Response } from "express"
-import { createPortfolioDB } from "../services/portfolio.service"
+import PortfolioService from "../services/portfolio.service"
 
 class PortfolioController {
-    createPortfolio = async (req: Request, res: Response) => {
-        const userId = req.userId!
-        const { name, baseCurrency } = req.body
-        if (!name || !baseCurrency) {
-            return res.status(400).json({ message: "Name and base currency are required" })
-        }
 
+    private portfolioService = new PortfolioService()
+
+    createPortfolio = async (req: Request, res: Response) => {
+        const { name, baseCurrency } = req.body
+        
         try {
-            const portfolio = await createPortfolioDB(userId, name, baseCurrency)
+            const portfolio = await this.portfolioService.create(req.userId!, name, baseCurrency)
             res.status(201).json(portfolio)
         } catch (error) {
             res.status(500).json({ message: "Failed to create portfolio", error })
