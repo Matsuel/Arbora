@@ -9,7 +9,7 @@ const Welcome = () => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Welcome to Cashy</Text>
+			<Text style={styles.title}>Welcome to Arbora</Text>
 
 			<View style={styles.buttonsContainer}>
 				<Button style={{ width: "70%" }} onPress={() => handlePress("login")}>
