@@ -1,0 +1,11 @@
+export const fetchMarketAssets = async (query: string) => {
+    const response = await fetch(`http://localhost:3000/market/search?query=${encodeURIComponent(query)}`);
+    if (!response.ok) {
+        throw new Error('Failed to fetch market assets');
+    }
+    const data = await response.json();
+    if (!data || !Array.isArray(data)) {
+        throw new Error('Invalid data format received from server');
+    }
+    return data;
+};
