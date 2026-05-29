@@ -1,5 +1,25 @@
+import { router } from 'expo-router';
 import React, { useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+// TODO:
+// - Faire page /asset avec details de l'actif, graphiques, infos, etc
+// - Ajouter un bouton "Ajouter au portefeuille" qui ouvre un modal pour choisir le portefeuille et la quantité avec la strategie
+// - Trouver un moyen de stocker les logos des actifs via Supabase Storage pour éviter de faire des requetes à chaque fois
+// - Créer script qui actualise les actifs tous les jours à 0h en récupérant les données de l'API
+// - Créer structure de données pour les prix des actifs pour les afficher dans le graphique et calculer les performances
+// - Filtre sur la période (1j, 1s, 1m, 3m, 6m, 1a, max) pour afficher les performances sur la période choisie
+
+// Page Home
+// - Afficher les performances globales du/des portefeuille(s) de l'utilisateur
+// - Utiliser le composant graphique avec les filtres de période pour afficher les performances du/des portefeuille(s)
+// - Afficher les dernières transactions
+// - Bouton qui redirige vers chaque portefeuille pour avoir les détails des actifs détenus, les performances, etc
+
+// Page Portefeuille
+// - Afficher la liste des actifs détenus avec leur quantité, valeur actuelle, performance, etc
+// - Utiliser le composant graphique pour afficher les performances du portefeuille avec les filtres de période
+// - Bouton pour gérer le portefeuille (ajouter/supprimer des actifs, modifier les quantités, etc)
 
 interface MarketRowProps {
     symbol: string;
@@ -16,10 +36,15 @@ const MarketRow = ({
     assetType,
     logoUrl
 }: MarketRowProps) => {
+    
     const [logoError, setLogoError] = useState<boolean>(false);
 
+    const onPress = () => {
+        router.push({ pathname: '/asset', params: { symbol } });
+    };
+
     return (
-        <TouchableOpacity style={styles.row}>
+        <TouchableOpacity style={styles.row} onPress={onPress}>
             <View style={styles.logoContainer}>
                 {logoUrl && !logoError ? (
                     <Image

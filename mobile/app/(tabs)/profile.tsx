@@ -1,3 +1,4 @@
+import PageLayout from '@/components/PageLayout';
 import Button from '@/components/ui/Button';
 import SwitchToggle from '@/components/ui/SwitchToggle';
 import { useAuth } from '@/contexts/auth-context';
@@ -22,7 +23,7 @@ const Profile = () => {
 
 
     return (
-        <View style={styles.container}>
+        <PageLayout title="Profil">
             <View style={styles.header}>
                 <View style={styles.avatar}>
                     {user.user_metadata?.avatar_url ? (
@@ -48,7 +49,7 @@ const Profile = () => {
             <Button onPress={signOut} variant='secondary'>
                 Se déconnecter
             </Button>
-        </View>
+        </PageLayout>
     );
 }
 
