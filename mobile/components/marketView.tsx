@@ -35,7 +35,7 @@ const MarketView = ({ query }: MarketViewProps) => {
 
     return (
         <FlatList
-            refreshing={isLoading}
+            refreshing={isRefetching}
             onRefresh={refetch}
             refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
             data={data}
