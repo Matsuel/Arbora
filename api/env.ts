@@ -4,6 +4,7 @@ const envSchema = z.object({
     PORT: z.number().default(3000),
     SUPABASE_URL: z.url(),
     SUPABASE_KEY: z.string(),
+    LOGO_DEV_TOKEN: z.string().optional(),
 });
 
 const _env = envSchema.parse(process.env);

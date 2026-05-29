@@ -3,4 +3,5 @@ export interface MarketData {
     name: string
     exchange: string
     assetType: string
+    logoUrl?: string
 }

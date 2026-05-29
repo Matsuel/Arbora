@@ -9,7 +9,10 @@ const Market = () => {
     const [queryToSearch, setQueryToSearch] = useState<string>('');
 
     useEffect(() => {
-        if (!query) return;
+        if (!query) {
+            setQueryToSearch('');
+            return;
+        }
         const timer = setTimeout(() => {
             setQueryToSearch(query);
         }, 500);

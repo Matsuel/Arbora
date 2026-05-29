@@ -1,4 +1,5 @@
 import YahooFinance from "yahoo-finance2/src/index.ts";
+import { env } from "../env";
 import type { MarketData } from "../interfaces/market.interface";
 
 export interface IMarketRepository {
@@ -17,6 +18,9 @@ class MarketRepository implements IMarketRepository {
             name: quote.shortname || quote.longname || quote.symbol,
             exchange: quote.exchange,
             assetType: quote.quoteType,
+            logoUrl: quote.symbol && env.LOGO_DEV_TOKEN
+                ? `https://img.logo.dev/ticker/${quote.symbol}?token=${env.LOGO_DEV_TOKEN}&size=64`
+                : undefined,
         }))
 
         return formattedResults.filter((item) => item.name && item.exchange && item.assetType)
