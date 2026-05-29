@@ -5,6 +5,7 @@ import { dbHealthCheck } from './utils/db';
 import statusRouter from './routes/status';
 import portfolioRouter from './routes/portfolio';
 import { Logger } from './utils/logger';
+import marketRouter from './routes/market';
 
 const logger = Logger.here()
 
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use(statusRouter);
 app.use(portfolioRouter);
+app.use(marketRouter);
 
 app.listen(env.PORT, async () => {
     await dbHealthCheck();
