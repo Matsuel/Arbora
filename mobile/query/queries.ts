@@ -23,3 +23,11 @@ export const fetchMarketDetails = async (id: string, period: string): Promise<Ma
     }
     return data;
 };
+
+export const isAvailable = async (): Promise<boolean> => {
+    const response = await fetch(`http://localhost:3000/status`);
+    if (!response.ok) {
+        return false;
+    }
+    return true;
+};
