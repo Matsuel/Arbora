@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import MarketService from "../services/market.service";
+import type { Period } from "../interfaces/market.interface";
 
 
 class MarketController {
@@ -17,10 +18,12 @@ class MarketController {
 
     getMarketDetails = async(req: Request, res: Response) => {
         const { id } = req.params
+        const { period } = req.query
 
         console.log("Getting market details for id:", id)
+        console.log("Period:", period)
         
-        const result = await this.marketService.getMarketDetails(id as string)
+        const result = await this.marketService.getMarketDetails(id as string, period as Period)
         res.json(result)
     }
 

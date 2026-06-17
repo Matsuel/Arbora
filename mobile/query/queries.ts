@@ -12,8 +12,8 @@ export const fetchMarketAssets = async (query: string) => {
     return data;
 };
 
-export const fetchMarketDetails = async (id: string): Promise<MarketDetails[]> => {
-    const response = await fetch(`http://localhost:3000/market/details/${encodeURIComponent(id)}`);
+export const fetchMarketDetails = async (id: string, period: string): Promise<MarketDetails[]> => {
+    const response = await fetch(`http://localhost:3000/market/details/${encodeURIComponent(id)}?period=${encodeURIComponent(period)}`);
     if (!response.ok) {
         throw new Error('Failed to fetch market details');
     }

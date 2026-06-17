@@ -8,9 +8,9 @@ export const useFetchMarketAssets = (query: string) => {
     });
 };
 
-export const useFetchMarketDetails = (id: string) => {
+export const useFetchMarketDetails = (id: string, period: string) => {
     return useQuery({
-        queryKey: ['marketDetails', id],
-        queryFn: () => fetchMarketDetails(id),
+        queryKey: ['marketDetails', id, period],
+        queryFn: () => fetchMarketDetails(id, period),
     });
 }

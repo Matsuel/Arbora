@@ -1,4 +1,5 @@
 import BadRequestError from "../errors/badrequest.error";
+import type { Period } from "../interfaces/market.interface";
 import MarketRepository, { type IMarketRepository } from "../repositories/market.repository";
 
 
@@ -13,11 +14,11 @@ class MarketService {
         return this.repo.search(query.trim())
     }
 
-    async getMarketDetails(id: string) {
+    async getMarketDetails(id: string, period: Period) {
         if (!id || id.trim().length === 0) {
             throw new BadRequestError("Id must be provided")
         }
-        return this.repo.getDetails(id.trim())
+        return this.repo.getDetails(id.trim(), period)
     }
 }
 

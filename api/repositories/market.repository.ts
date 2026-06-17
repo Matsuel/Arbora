@@ -1,10 +1,10 @@
 import YahooFinance from "yahoo-finance2/src/index.ts";
 import { env } from "../env";
-import type { MarketData, MarketDetails } from "../interfaces/market.interface";
+import type { MarketData, MarketDetails, Period } from "../interfaces/market.interface";
 
 export interface IMarketRepository {
     search(query: string): Promise<MarketData[]>
-    getDetails(id: string): Promise<MarketDetails[]>
+    getDetails(id: string, period: Period): Promise<MarketDetails[]>
 }
 
 class MarketRepository implements IMarketRepository {
@@ -27,9 +27,22 @@ class MarketRepository implements IMarketRepository {
         return formattedResults.filter((item) => item.name && item.exchange && item.assetType)
     }
 
-    async getDetails(id: string): Promise<MarketDetails[]> {
+    async getDetails(id: string, period: Period): Promise<MarketDetails[]> {
+        const now = new Date()
+
+        const config: Record<Period, { period1: Date, interval: string }> = {
+            '1d': { period1: new Date(now.getTime() - 24 * 60 * 60 * 1000), interval: '5m' },
+            '1w': { period1: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000), interval: '1h' },
+            '1m': { period1: new Date(now.getFullYear(), now.getMonth() - 1, now.getDate()), interval: '1d' },
+            '1y': { period1: new Date(now.getFullYear() - 1, now.getMonth(), now.getDate()), interval: '1wk' },
+            'max': { period1: new Date(0), interval: '1mo' },
+        }
+
+        const { period1, interval } = config[period]
+
         const details = await MarketRepository.yahooFinance.chart(id, {
-            period1: new Date(0)
+            period1: period1,
+            interval: interval as any,
         })
 
         if (!details) {

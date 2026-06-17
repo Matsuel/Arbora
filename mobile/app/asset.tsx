@@ -7,8 +7,8 @@ import Loading from '@/components/ui/Loading';
 
 const AssetModal = () => {
   const { symbol } = useLocalSearchParams<{ symbol: string }>();
-  const { data: marketDetails, isLoading, isError } = useFetchMarketDetails(symbol);
   const [activeFilter, setActiveFilter] = useState<FilterPeriod>('1M');
+  const { data: marketDetails, isLoading } = useFetchMarketDetails(symbol, activeFilter.toLowerCase());
 
   if (isLoading) {
     return (
