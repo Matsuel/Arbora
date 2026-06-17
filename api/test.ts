@@ -2,10 +2,8 @@ import YahooFinance from "yahoo-finance2";
 
 const test = new YahooFinance();
 
-const history = await test.chart('GOOG', {
-    period1: '2000-01-01',
-    period2: '2024-01-01',
-    interval: '1mo',
+const history = await test.chart('AMZN', {
+    period1: new Date(0),
 })
 
 console.log(history);

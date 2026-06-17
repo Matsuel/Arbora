@@ -1,22 +1,26 @@
 import { useLocalSearchParams } from 'expo-router/build/hooks';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import PriceChart, { ChartPoint, FilterPeriod } from '../components/PriceChart';
-
-const MOCK_DATA: ChartPoint[] = Array.from({ length: 60 }, (_, i) => ({
-  date: new Date(Date.now() - (59 - i) * 24 * 60 * 60 * 1000),
-  price: 100 + Math.sin(i / 5) * 10 + i * 0.5 + Math.random() * 3,
-}));
+import PriceChart, { FilterPeriod } from '../components/PriceChart';
+import { useFetchMarketDetails } from '@/query/hook';
+import Loading from '@/components/ui/Loading';
 
 const AssetModal = () => {
   const { symbol } = useLocalSearchParams<{ symbol: string }>();
+  const { data: marketDetails, isLoading, isError } = useFetchMarketDetails(symbol);
   const [activeFilter, setActiveFilter] = useState<FilterPeriod>('1M');
+
+  if (isLoading) {
+    return (
+      <Loading />
+    )
+  }
 
   return (
     <View style={styles.container}>
       <Text style={styles.symbol}>{symbol}</Text>
       <PriceChart
-        data={MOCK_DATA}
+        data={marketDetails || []}
         activeFilter={activeFilter}
         onFilterChange={setActiveFilter}
       />

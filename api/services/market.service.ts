@@ -12,6 +12,13 @@ class MarketService {
         }
         return this.repo.search(query.trim())
     }
+
+    async getMarketDetails(id: string) {
+        if (!id || id.trim().length === 0) {
+            throw new BadRequestError("Id must be provided")
+        }
+        return this.repo.getDetails(id.trim())
+    }
 }
 
 export default MarketService;

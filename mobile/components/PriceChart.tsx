@@ -23,15 +23,15 @@ import {
   Svg,
 } from 'react-native-svg';
 
-export interface ChartPoint {
-  date: Date;
+export interface MarketDetails {
+  date: string;
   price: number;
 }
 
 export type FilterPeriod = '1D' | '1W' | '1M' | '1Y' | 'Max';
 
 export interface PriceChartProps {
-  data: ChartPoint[];
+  data: MarketDetails[];
   onFilterChange: (period: FilterPeriod) => void;
   activeFilter: FilterPeriod;
   color?: string;
@@ -41,7 +41,7 @@ export interface PriceChartProps {
 const FILTER_PERIODS: FilterPeriod[] = ['1D', '1W', '1M', '1Y', 'Max'];
 
 function normalizePoints(
-  data: ChartPoint[],
+  data: MarketDetails[],
   width: number,
   height: number,
 ): { x: number; y: number }[] {
@@ -249,7 +249,7 @@ export default function PriceChart({
     pointXPositions.value = points.map(p => p.x);
     pointYPositions.value = points.map(p => p.y);
     priceValues.value = data.map(d => d.price);
-    dateStrings.value = data.map(d => formatDateForFilter(d.date, activeFilter));
+    dateStrings.value = data.map(d => formatDateForFilter(new Date(d.date), activeFilter));
   }, [points, data, activeFilter, scrubX, pointXPositions, pointYPositions, priceValues, dateStrings]);
 
   useEffect(() => {

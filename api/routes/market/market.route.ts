@@ -15,6 +15,11 @@ const createMarketRoutes = (): RouteDescriptor[] => {
             path: `${prefix}/search`,
             // middlewares: [authMiddleware],
             handler: asyncHandler(controller.searchMarket)
+        },
+        {
+            method: "get",
+            path: `${prefix}/details/:id`,
+            handler: asyncHandler(controller.getMarketDetails)
         }
     ];
 }

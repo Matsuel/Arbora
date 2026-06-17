@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchMarketAssets } from "./queries";
+import { fetchMarketAssets, fetchMarketDetails } from "./queries";
 
 export const useFetchMarketAssets = (query: string) => {
     return useQuery({
@@ -7,3 +7,10 @@ export const useFetchMarketAssets = (query: string) => {
         queryFn: () => fetchMarketAssets(query),
     });
 };
+
+export const useFetchMarketDetails = (id: string) => {
+    return useQuery({
+        queryKey: ['marketDetails', id],
+        queryFn: () => fetchMarketDetails(id),
+    });
+}

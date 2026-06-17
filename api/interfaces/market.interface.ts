@@ -5,3 +5,8 @@ export interface MarketData {
     assetType: string
     logoUrl?: string
 }
+
+export interface MarketDetails {
+    date: string
+    price: number
+}

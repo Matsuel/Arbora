@@ -1,9 +1,10 @@
 import YahooFinance from "yahoo-finance2/src/index.ts";
 import { env } from "../env";
-import type { MarketData } from "../interfaces/market.interface";
+import type { MarketData, MarketDetails } from "../interfaces/market.interface";
 
 export interface IMarketRepository {
     search(query: string): Promise<MarketData[]>
+    getDetails(id: string): Promise<MarketDetails[]>
 }
 
 class MarketRepository implements IMarketRepository {
@@ -12,7 +13,7 @@ class MarketRepository implements IMarketRepository {
 
     async search(query: string): Promise<MarketData[]> {
         const results = await MarketRepository.yahooFinance.search(query)
-        
+
         const formattedResults: MarketData[] = results.quotes.map((quote: any) => ({
             symbol: quote.symbol,
             name: quote.shortname || quote.longname || quote.symbol,
@@ -24,6 +25,23 @@ class MarketRepository implements IMarketRepository {
         }))
 
         return formattedResults.filter((item) => item.name && item.exchange && item.assetType)
+    }
+
+    async getDetails(id: string): Promise<MarketDetails[]> {
+        const details = await MarketRepository.yahooFinance.chart(id, {
+            period1: new Date(0)
+        })
+
+        if (!details) {
+            throw new Error(`No details found for id: ${id}`)
+        }
+
+        const formattedResult: MarketDetails[] = details.quotes.map((quote: any) => ({
+            date: quote.date,
+            price: quote.close,
+        }))
+
+        return formattedResult
     }
 }
 

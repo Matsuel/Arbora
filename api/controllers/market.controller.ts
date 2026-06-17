@@ -15,6 +15,15 @@ class MarketController {
         res.json(result)
     }
 
+    getMarketDetails = async(req: Request, res: Response) => {
+        const { id } = req.params
+
+        console.log("Getting market details for id:", id)
+        
+        const result = await this.marketService.getMarketDetails(id as string)
+        res.json(result)
+    }
+
 }
 
 export default MarketController;
