@@ -63,3 +63,15 @@ export const createPortfolio = async (
     if (!response.ok) throw new Error('Failed to create portfolio')
     return response.json()
 }
+
+export const deletePortfolio = async (token: string, portfolioId: string): Promise<void> => {
+    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_HOST}:3000/portfolio/${encodeURIComponent(portfolioId)}`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Failed to delete portfolio');
+    }
+};
