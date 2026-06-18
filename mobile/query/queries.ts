@@ -46,3 +46,20 @@ export const fetchPortfolio = async (userId: string): Promise<any> => {
     const data = await response.json();
     return data;
 };
+
+export const createPortfolio = async (
+    token: string,
+    name: string,
+    baseCurrency: string
+): Promise<any> => {
+    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_HOST}:3000/portfolio`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ name, baseCurrency }),
+    })
+    if (!response.ok) throw new Error('Failed to create portfolio')
+    return response.json()
+}

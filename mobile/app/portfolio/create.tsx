@@ -3,6 +3,9 @@ import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { useAuth } from '@/hooks/useAuth'
+import { useCreatePortfolio } from '@/query/hook'
+import { router } from 'expo-router'
 
 const CURRENCIES = [
     { label: 'Euro (€)', value: 'EUR' },
@@ -10,12 +13,20 @@ const CURRENCIES = [
     { label: 'Livre sterling (£)', value: 'GBP' },
 ]
 
-
 const Create = () => {
 
     const [name, setName] = useState<string>('')
     const [currency, setCurrency] = useState('EUR')
 
+    const { token } = useAuth()
+    const { mutate: createPortfolio, isPending } = useCreatePortfolio(token!)
+
+    const handleCreate = () => {
+        createPortfolio(
+            { name, baseCurrency: currency },
+            { onSuccess: () => router.back() }
+        )
+    }
 
     return (
         <View style={styles.container}>
@@ -35,7 +46,7 @@ const Create = () => {
                     onChange={setCurrency}
                     options={CURRENCIES}
                 />
-                <Button disabled={name.length === 0} onPress={() => { }}>
+                <Button disabled={name.length === 0 || isPending} onPress={handleCreate}>
                     Créer le portefeuille
                 </Button>
             </View>
