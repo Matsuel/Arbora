@@ -65,6 +65,7 @@ export default function RootLayout() {
               <Stack.Screen name="auth/callback" options={{ headerShown: false }} />
               <Stack.Screen name="asset" options={{ headerShown: false, presentation: 'modal' }} />
               <Stack.Screen name="portfolio/[id]" options={{ headerShown: false, presentation: 'modal' }} />
+              <Stack.Screen name="portfolio/create" options={{ headerShown: false, presentation: 'modal' }} />
             </Stack>
             <StatusBar style="auto" />
           </ThemeProvider>

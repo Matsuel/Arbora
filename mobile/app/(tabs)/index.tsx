@@ -1,5 +1,8 @@
+import Add from '@/components/icon/Add';
 import Chevron from '@/components/icon/Chevron';
+import Infos from '@/components/Infos';
 import PortfolioCard from '@/components/Portfolio';
+import TotalBalance from '@/components/TotalBalance';
 import Loading from '@/components/ui/Loading';
 import { useAuth } from '@/hooks/useAuth';
 import { useFetchPortfolio } from '@/query/hook';
@@ -22,13 +25,21 @@ export default function HomeScreen() {
 
     return (
         <View style={styles.container}>
-            <FlatList
-            refreshControl={
-                <RefreshControl
-                    refreshing={isRefetching}
-                    onRefresh={refetch}
+            <TotalBalance total={0} currency="EUR" />
+            <View style={styles.infosContainer}>
+                <Infos
+                    title="Créer un portefeuille"
+                    icon={<Add width={30} height={30} color="#bbc1cb" />}
+                    onPress={() => router.push('/portfolio/create')}
                 />
-            }
+            </View>
+            <FlatList
+                refreshControl={
+                    <RefreshControl
+                        refreshing={isRefetching}
+                        onRefresh={refetch}
+                    />
+                }
                 ListHeaderComponent={
                     <View style={styles.listHeader}>
                         <Text style={styles.listHeaderTitle}>
@@ -57,7 +68,14 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 60,
-        paddingHorizontal: 20
+        paddingHorizontal: 20,
+        backgroundColor: '#f5f5f5',
+    },
+    infosContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        gap: 20,
+        marginBottom: 20
     },
     listHeader: {
         flexDirection: 'row',
