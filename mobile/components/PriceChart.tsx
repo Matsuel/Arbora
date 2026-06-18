@@ -38,7 +38,20 @@ export interface PriceChartProps {
   height?: number;
 }
 
+const COLOR_UP = '#22c55e';   // vert
+const COLOR_DOWN = '#ef4444'; // rouge
+const COLOR_FLAT = '#000'; // neutre
+
 const FILTER_PERIODS: FilterPeriod[] = ['1D', '1W', '1M', '1Y', 'Max'];
+
+function getChartColor(data: MarketDetails[]): string {
+  if (data.length < 2) return COLOR_FLAT;
+  const first = data[0].price;
+  const last = data[data.length - 1].price;
+  if (last > first) return COLOR_UP;
+  if (last < first) return COLOR_DOWN;
+  return COLOR_FLAT;
+}
 
 function normalizePoints(
   data: MarketDetails[],
@@ -221,6 +234,8 @@ export default function PriceChart({
   const gradientId = React.useRef(`chartGradient_${Math.random().toString(36).slice(2)}`).current;
   const svgWidthSV = useSharedValue(0);
   const heightSV = useSharedValue(height);
+
+  color = useMemo(() => getChartColor(data), [data]);
 
   const onLayout = (e: LayoutChangeEvent) => {
     const w = e.nativeEvent.layout.width;

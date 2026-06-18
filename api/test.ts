@@ -3,7 +3,7 @@ import YahooFinance from "yahoo-finance2";
 const test = new YahooFinance();
 
 const history = await test.chart('AMZN', {
-    period1: new Date(0),
+    period1: new Date(0)
 })
 
 console.log(history);
