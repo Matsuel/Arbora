@@ -1,7 +1,7 @@
 import { MarketDetails } from "@/components/PriceChart";
 
 export const fetchMarketAssets = async (query: string) => {
-    const response = await fetch(`http://localhost:3000/market/search?query=${encodeURIComponent(query)}`);
+    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_HOST}:3000/market/search?query=${encodeURIComponent(query)}`);
     if (!response.ok) {
         throw new Error('Failed to fetch market assets');
     }
@@ -13,7 +13,7 @@ export const fetchMarketAssets = async (query: string) => {
 };
 
 export const fetchMarketDetails = async (id: string, period: string): Promise<MarketDetails[]> => {
-    const response = await fetch(`http://localhost:3000/market/details/${encodeURIComponent(id)}?period=${encodeURIComponent(period)}`);
+    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_HOST}:3000/market/details/${encodeURIComponent(id)}?period=${encodeURIComponent(period)}`);
     if (!response.ok) {
         throw new Error('Failed to fetch market details');
     }
@@ -25,9 +25,24 @@ export const fetchMarketDetails = async (id: string, period: string): Promise<Ma
 };
 
 export const isAvailable = async (): Promise<boolean> => {
-    const response = await fetch(`http://localhost:3000/status`);
+    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_HOST}:3000/status`);
     if (!response.ok) {
         return false;
     }
     return true;
+};
+
+export const fetchPortfolio = async (userId: string): Promise<any> => {
+    const response = await fetch(`http://${process.env.EXPO_PUBLIC_API_HOST}:3000/portfolio`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${userId}`
+        }
+    });
+    if (!response.ok) {
+        throw new Error('Failed to fetch portfolio');
+    }
+    const data = await response.json();
+    return data;
 };

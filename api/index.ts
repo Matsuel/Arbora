@@ -18,7 +18,7 @@ app.use(statusRouter);
 app.use(portfolioRouter);
 app.use(marketRouter);
 
-app.listen(env.PORT, async () => {
+app.listen(env.PORT, env.HOST, async () => {
     await dbHealthCheck();
-    logger.info(`Server is running on port ${env.PORT}`);
+    logger.info(`Server is running on port ${env.PORT} and host ${env.HOST}`);
 });
