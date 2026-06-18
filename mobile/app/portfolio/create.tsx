@@ -1,12 +1,22 @@
+import InputPicker from '@/components/ui/InputPicker'
 import Button from '@/components/ui/Button'
 import Input from '@/components/ui/Input'
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
+const CURRENCIES = [
+    { label: 'Euro (€)', value: 'EUR' },
+    { label: 'Dollar US ($)', value: 'USD' },
+    { label: 'Livre sterling (£)', value: 'GBP' },
+]
+
+
 const Create = () => {
 
     const [name, setName] = useState<string>('')
-    
+    const [currency, setCurrency] = useState('EUR')
+
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>
@@ -19,7 +29,13 @@ const Create = () => {
                     value={name}
                     onChangeText={setName}
                 />
-                <Button disabled={name.length === 0} onPress={() => {}}>
+                <InputPicker
+                    label="Devise"
+                    value={currency}
+                    onChange={setCurrency}
+                    options={CURRENCIES}
+                />
+                <Button disabled={name.length === 0} onPress={() => { }}>
                     Créer le portefeuille
                 </Button>
             </View>
