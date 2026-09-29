@@ -1,5 +1,4 @@
-import React from 'react';
-import { Icon, Label, NativeTabs } from "expo-router/unstable-native-tabs";
+import { NativeTabs } from "expo-router/unstable-native-tabs";
 import Welcome from '../welcome';
 import { useAuth } from '@/contexts/auth-context';
 
@@ -20,16 +19,16 @@ export default function TabLayout() {
   return (
     <NativeTabs>
       <NativeTabs.Trigger name="index">
-        <Label>Synthèse</Label>
-        <Icon sf="rectangle.3.group.fill" drawable="custom_android_drawable" />
+        <NativeTabs.Trigger.Label>Synthèse</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf="rectangle.3.group.fill" drawable="custom_android_drawable" />
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="market">
-        <Label>Marché</Label>
-        <Icon sf="chart.line.uptrend.xyaxis" drawable="custom_android_drawable" />
+        <NativeTabs.Trigger.Label>Marché</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf="chart.line.uptrend.xyaxis" drawable="custom_android_drawable" />
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="profile">
-        <Label>Profil</Label>
-        <Icon sf="gear" drawable="custom_android_drawable" />
+        <NativeTabs.Trigger.Label>Profil</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf="gear" drawable="custom_android_drawable" />
       </NativeTabs.Trigger>
     </NativeTabs>
   );
