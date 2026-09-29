@@ -8,8 +8,6 @@ import { Alert, Text, View } from 'react-native'
 const Portfolio = () => {
     const { id } = useLocalSearchParams();
 
-    console.log('Portfolio ID:', id);
-
     const { token } = useAuth()
     const { mutate: deletePortfolio, isPending } = useDeletePortfolio(token!)
 
